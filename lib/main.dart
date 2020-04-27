@@ -48,14 +48,7 @@ class _MyAppState extends State<MyApp> {
 
           color: Color.fromARGB(_alpha, _red, _green, _blue),
           child: Center(
-            child: showImage(),
-//            child: Text(
-//              "Hey there",
-//              style: TextStyle(
-//                fontSize: 32,
-//                color: Colors.black,
-//              ),
-//            ),
+            child: showImage(),git
           ),
         ),
       ),
@@ -77,78 +70,14 @@ class _MyAppState extends State<MyApp> {
           return Image.file(
             snapshot.data,
           );
-        } else if (snapshot.error != null) {
-          return const Text(
-            'Error Picking Image',
-            textAlign: TextAlign.center,
-          );
-        } else {
-          return const Text(
-            'No Image Selected',
-            textAlign: TextAlign.center,
-          );
-        }
-      },
-    );
-  }
-
-}
-
-class PickImageDemo extends StatefulWidget {
-  @override
-  _PickImageDemoState createState() => _PickImageDemoState();
-}
-
-class _PickImageDemoState extends State<PickImageDemo> {
-  Future<File> imageFile;
-
-  pickImageFromGallery(ImageSource source) {
-    setState(() {
-      imageFile = ImagePicker.pickImage(source: source);
+        } else return Text(
+          "Hey there",
+          style: TextStyle(
+            fontSize: 32,
+            color: Colors.black
+          ),
+        );
     });
   }
 
-  Widget showImage() {
-    return FutureBuilder<File>(
-      future: imageFile,
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          return Image.file(
-            snapshot.data,
-          );
-        } else if (snapshot.error != null) {
-          return const Text(
-            'Error Picking Image',
-            textAlign: TextAlign.center,
-          );
-        } else {
-          return const Text(
-            'No Image Selected',
-            textAlign: TextAlign.center,
-          );
-        }
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            showImage(),
-            RaisedButton(
-              child: Text("Select Image from Gallery"),
-              onPressed: () {
-                pickImageFromGallery(ImageSource.gallery);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
