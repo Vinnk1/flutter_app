@@ -45,10 +45,9 @@ class _MyAppState extends State<MyApp> {
           });
         },
         child: Container(
-
           color: Color.fromARGB(_alpha, _red, _green, _blue),
           child: Center(
-            child: showImage(),git
+            child: showImage(),
           ),
         ),
       ),
