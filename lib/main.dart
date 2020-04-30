@@ -28,32 +28,42 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Hello"),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add_photo_alternate),
-        onPressed: () {
-          pickImageFromGallery(ImageSource.gallery);
-        },
-      ),
-      body: GestureDetector(
-        onTap: () {
-          setState(() {
-            _imageFile = null;
-            _alpha = new Random().nextInt(255);
-            _red = new Random().nextInt(255);
-            _green = new Random().nextInt(255);
-            _blue = new Random().nextInt(255);
-          });
-        },
-        child: Container(
-            color: Color.fromARGB(_alpha, _red, _green, _blue),
-            child: SizedBox.expand(
-              child: getImage(),
-            )),
-      )
-    );
+        appBar: new AppBar(
+          title: new Text("Hello"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add_photo_alternate),
+          onPressed: () {
+            pickImageFromGallery(ImageSource.gallery);
+          },
+        ),
+        body: GestureDetector(
+          onTap: () {
+            setState(() {
+              _imageFile = null;
+              _alpha = new Random().nextInt(255);
+              _red = new Random().nextInt(255);
+              _green = new Random().nextInt(255);
+              _blue = new Random().nextInt(255);
+            });
+          },
+          child: Container(
+              color: Color.fromARGB(_alpha, _red, _green, _blue),
+              child: SizedBox.expand(
+                  child: Stack(
+                children: <Widget>[
+                  Center(
+                    child: getImage(),
+                  ),
+                  Center(
+                    child: Text(
+                      "Hey there",
+                      style: TextStyle(fontSize: 32, color: Colors.black),
+                    ),
+                  )
+                ],
+              ))),
+        ));
   }
 
   Widget getImage() {
@@ -68,11 +78,7 @@ class _MyAppState extends State<MyApp> {
               fit: BoxFit.cover,
             );
           } else {
-            return Center(
-                child: Text(
-              "Hey there",
-              style: TextStyle(fontSize: 32, color: Colors.black),
-            ));
+            return Center();
           }
         },
       ),
