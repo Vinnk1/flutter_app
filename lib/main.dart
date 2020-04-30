@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-void main() => runApp(Directionality(
-    textDirection: TextDirection.ltr,
-    child: MaterialApp(debugShowCheckedModeBanner: false, home: MyApp())));
+void main() =>
+    runApp(Directionality(
+        textDirection: TextDirection.ltr,
+        child: MaterialApp(debugShowCheckedModeBanner: false,
+          initialRoute:'/myApp',
+          routes: {
+            '/': (BuildContext context) => SecondScreen(),
+            '/myApp': (BuildContext context) => MyApp()
+          },
+        )));
 
 class MyApp extends StatefulWidget {
   @override
@@ -14,6 +21,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _alpha, _red, _green, _blue;
+  int x = 0;
   Future<File> _imageFile;
 
   @override
@@ -27,17 +35,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    changeNumber();
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text("Hello"),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add_photo_alternate),
-          onPressed: () {
-            pickImageFromGallery(ImageSource.gallery);
-          },
-        ),
-        body: GestureDetector(
+      appBar: new AppBar(
+        title: new Text("Hello"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_photo_alternate),
+        onPressed: () {
+          pickImageFromGallery(ImageSource.gallery);
+        },
+      ),
+      body: GestureDetector(
           onTap: () {
             setState(() {
               _imageFile = null;
@@ -47,27 +56,25 @@ class _MyAppState extends State<MyApp> {
               _blue = new Random().nextInt(255);
             });
           },
-          child: Container(
-              color: Color.fromARGB(_alpha, _red, _green, _blue),
-              child: SizedBox.expand(
-                  child: Stack(
-                children: <Widget>[
-                  Center(
-                    child: getImage(),
-                  ),
-                  Center(
-                    child: Text(
-                      "Hey there",
-                      style: TextStyle(fontSize: 32, color: Colors.black),
-                    ),
-                  )
-                ],
-              ))),
-        ));
+          child: Stack(
+            children: <Widget>[
+              Center(
+                child: getImage(),
+              ),
+              Center(
+                child: Text(
+                  "Hey there : $x",
+                  style: TextStyle(fontSize: 32, color: Colors.black),
+                ),
+              )
+            ],
+          )),
+    );
   }
 
   Widget getImage() {
     return Container(
+      color: Color.fromARGB(_alpha, _red, _green, _blue),
       child: FutureBuilder(
         future: _imageFile,
         builder: (context, AsyncSnapshot<File> snapshot) {
@@ -85,9 +92,37 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  changeNumber() async {
+    while (x < 100) {
+      x++;
+      setState(() {});
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+
   pickImageFromGallery(ImageSource source) {
     setState(() {
       _imageFile = ImagePicker.pickImage(source: source);
     });
   }
+}
+
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("hello"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/myApp");
+          },
+          child: Text("open first window"),
+        ),
+      ),
+    );
+  }
+
 }
