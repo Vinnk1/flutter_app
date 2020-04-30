@@ -59,7 +59,9 @@ class _MyAppState extends State<MyApp> {
           child: Stack(
             children: <Widget>[
               Center(
-                child: getImage(),
+                child: SizedBox.expand(
+                  child: getImage(),
+                ),
               ),
               Center(
                 child: Text(
