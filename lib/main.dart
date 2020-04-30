@@ -28,16 +28,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        title: new Text("Hello"),
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_photo_alternate),
-        onPressed: (){
+        onPressed: () {
           pickImageFromGallery(ImageSource.gallery);
-          showImage();
         },
       ),
       body: GestureDetector(
         onTap: () {
           setState(() {
+            _imageFile = null;
             _alpha = new Random().nextInt(255);
             _red = new Random().nextInt(255);
             _green = new Random().nextInt(255);
@@ -45,38 +48,40 @@ class _MyAppState extends State<MyApp> {
           });
         },
         child: Container(
-          color: Color.fromARGB(_alpha, _red, _green, _blue),
-          child: Center(
-            child: showImage(),
-          ),
-        ),
+            color: Color.fromARGB(_alpha, _red, _green, _blue),
+            child: SizedBox.expand(
+              child: getImage(),
+            )),
+      )
+    );
+  }
+
+  Widget getImage() {
+    return Container(
+      child: FutureBuilder(
+        future: _imageFile,
+        builder: (context, AsyncSnapshot<File> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data != null) {
+            return Image.file(
+              snapshot.data,
+              fit: BoxFit.cover,
+            );
+          } else {
+            return Center(
+                child: Text(
+              "Hey there",
+              style: TextStyle(fontSize: 32, color: Colors.black),
+            ));
+          }
+        },
       ),
     );
   }
 
-  pickImageFromGallery(ImageSource source){
+  pickImageFromGallery(ImageSource source) {
     setState(() {
       _imageFile = ImagePicker.pickImage(source: source);
     });
   }
-
-  Widget showImage() {
-    return FutureBuilder<File>(
-      future: _imageFile,
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.data != null) {
-          return Image.file(
-            snapshot.data,
-          );
-        } else return Text(
-          "Hey there",
-          style: TextStyle(
-            fontSize: 32,
-            color: Colors.black
-          ),
-        );
-    });
-  }
-
 }
