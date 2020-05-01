@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-void main() =>
-    runApp(Directionality(
-        textDirection: TextDirection.ltr,
-        child: MaterialApp(debugShowCheckedModeBanner: false,
-          initialRoute:'/myApp',
-          routes: {
-            '/': (BuildContext context) => SecondScreen(),
-            '/myApp': (BuildContext context) => MyApp()
-          },
-        )));
+void main() => runApp(Directionality(
+    textDirection: TextDirection.ltr,
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/myApp',
+      routes: {
+        '/': (BuildContext context) => SecondScreen(),
+        '/myApp': (BuildContext context) => MyApp()
+      },
+    )));
 
 class MyApp extends StatefulWidget {
   @override
@@ -126,5 +126,4 @@ class SecondScreen extends StatelessWidget {
       ),
     );
   }
-
 }
