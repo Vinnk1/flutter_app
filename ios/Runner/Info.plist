@@ -47,5 +47,11 @@
     <string>Need your access</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Need your access</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Need your access</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Need your access</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need your access</string>
 </dict>
 </plist>
